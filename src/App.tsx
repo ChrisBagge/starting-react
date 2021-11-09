@@ -3,13 +3,6 @@ import "./App.css";
 import pokemon from "./pokemon.json";
 import { Name, Base, IPokemon } from "./interfaces/pokemon";
 
-const PokemonRow = ({ pokemon }: { pokemon: IPokemon }) => (
-  <tr>
-    <td>{pokemon.name.english}</td>
-    <td>{pokemon.type.join(", ")}</td>
-  </tr>
-);
-
 function PokemonRow2({
   pokemon,
   onSelect,
@@ -29,15 +22,6 @@ function PokemonRow2({
 }
 
 function PokemonInfo({ name, base }: { name: Name; base: Base }) {
-  type TypeKey = "HP" | "Attack";
-  let kindX: keyof Base;
-
-  let k: keyof Base;
-
-  for (k in base) {
-    console.log(k, base[k]);
-  }
-
   return (
     <div>
       <h1>{name.english}</h1>
@@ -104,5 +88,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
