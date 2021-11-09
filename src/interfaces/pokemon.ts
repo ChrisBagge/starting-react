@@ -12,7 +12,6 @@ export interface Base {
   "Sp. Attack": number;
   "Sp. Defense": number;
   Speed: number;
-  [key: string]: number;
 }
 
 export interface IPokemon {

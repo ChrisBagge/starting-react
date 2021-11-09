@@ -3,7 +3,7 @@ import "./App.css";
 import pokemon from "./pokemon.json";
 import { Name, Base, IPokemon } from "./interfaces/pokemon";
 
-function PokemonRow2({
+function PokemonRow({
   pokemon,
   onSelect,
 }: {
@@ -29,7 +29,7 @@ function PokemonInfo({ name, base }: { name: Name; base: Base }) {
         {Object.keys(base).map((key) => (
           <tr key={key}>
             <td>{key}</td>
-            <td>{base[key]}</td>
+            <td>{base[key as keyof Base]}</td>
           </tr>
         ))}
       </table>
@@ -74,7 +74,7 @@ function App() {
                 )
                 .slice(0, 20)
                 .map((pokemon) => (
-                  <PokemonRow2
+                  <PokemonRow
                     pokemon={pokemon}
                     key={pokemon.id}
                     onSelect={(pokemon) => selectedItemSet(pokemon)}
