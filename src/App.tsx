@@ -23,11 +23,16 @@ const Container = styled.div`
   width: 800px;
   paddingtop: 1rem;
 `;
-
+const defaultPokemon: IPokemon = {
+  base: { "Sp. Attack": 0, "Sp. Defense": 0, Attack: 0, Defense: 0, Speed: 0, HP: 0 },
+  id: 0,
+  name: { english: "", japanese: "", chinese: "", french: "" },
+  type: [],
+};
 function App() {
   const [filter, filterSet] = useState("");
   const [pokemon, pokemonSet] = useState<IPokemon[]>([]);
-  const [selectedItem, selectedItemSet] = useState<IPokemon | null>(null);
+  const [selectedItem, selectedItemSet] = useState<IPokemon /* | null*/>(defaultPokemon);
 
   useEffect(() => {
     fetch("http://localhost:3000/starting-react/pokemon.json")

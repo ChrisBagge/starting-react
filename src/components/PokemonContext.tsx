@@ -4,10 +4,10 @@ import { IPokemon } from "../interfaces/pokemon";
 interface IPokemonContext {
   filter: string;
   pokemon: IPokemon[];
-  selectedItem: IPokemon | null;
+  selectedItem: IPokemon;
   filterSet: (filter: string) => void;
   pokemonSet: (pokemon: IPokemon[]) => void;
-  selectedItemSet: (selectedItem: IPokemon | null) => void;
+  selectedItemSet: (selectedItem: IPokemon) => void;
 }
 
 const defaultState = {

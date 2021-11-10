@@ -1,19 +1,26 @@
 import React, { useContext } from "react";
 import { Base } from "../interfaces/pokemon";
 import PokemonContext from "./PokemonContext";
+import { IPokemon } from "../interfaces/pokemon";
 
 //function PokemonInfo({ name, base }: { name: Name; base: Base }) {
-const PokemonInfo = () => {
-  const { selectedItem } = useContext(PokemonContext);
 
-  return selectedItem ? (
+const PokemonInfo = () => {
+  const {
+    selectedItem: {
+      name: { english },
+      base,
+    },
+  } = useContext(PokemonContext) || ({} as IPokemon);
+
+  return english ? (
     <div>
-      <h1>{selectedItem.name.english}</h1>
+      <h1>{english}</h1>
       <table>
-        {Object.keys(selectedItem.base).map((key) => (
+        {Object.keys(base).map((key) => (
           <tr key={key}>
             <td>{key}</td>
-            <td>{selectedItem.base[key as keyof Base]}</td>
+            <td>{base[key as keyof Base]}</td>
           </tr>
         ))}
       </table>
