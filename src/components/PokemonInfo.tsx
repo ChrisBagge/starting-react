@@ -4,18 +4,22 @@ import PokemonContext from "./PokemonContext";
 
 //function PokemonInfo({ name, base }: { name: Name; base: Base }) {
 const PokemonInfo = () => {
-  const { selectedItem } = useContext(PokemonContext);
+  const {
+    state: { selectedItem },
+  } = useContext(PokemonContext);
 
-  return selectedItem ? (
+  return selectedItem.name ? (
     <div>
       <h1>{selectedItem.name.english}</h1>
       <table>
-        {Object.keys(selectedItem.base).map((key) => (
-          <tr key={key}>
-            <td>{key}</td>
-            <td>{selectedItem.base[key as keyof Base]}</td>
-          </tr>
-        ))}
+        <tbody>
+          {Object.keys(selectedItem.base).map((key) => (
+            <tr key={key}>
+              <td>{key}</td>
+              <td>{selectedItem.base[key as keyof Base]}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   ) : null;
