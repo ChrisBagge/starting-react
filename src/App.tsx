@@ -51,9 +51,9 @@ function App() {
         <TwoColumnLayout>
           <div>
             <PokemonFilter />
-            <PokemonTable filter={filter} pokemon={pokemon} selectedItemSet={selectedItemSet} />
+            <PokemonTable />
           </div>
-          {selectedItem && <PokemonInfo {...selectedItem} />}
+          <PokemonInfo />
         </TwoColumnLayout>
       </Container>
     </PokemonContext.Provider>
