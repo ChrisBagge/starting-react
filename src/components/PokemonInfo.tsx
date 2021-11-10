@@ -1,13 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Base } from "../interfaces/pokemon";
-import PokemonContext from "./PokemonContext";
+import { useSelector } from "react-redux";
+import { IPokemon } from "../interfaces/pokemon";
 
+interface RootState {
+  filter: string;
+  pokemon: IPokemon[];
+  selectedItem: IPokemon;
+}
 //function PokemonInfo({ name, base }: { name: Name; base: Base }) {
 const PokemonInfo = () => {
-  const {
-    state: { selectedItem },
-  } = useContext(PokemonContext);
-
+  const selectedItem = useSelector((state: RootState) => state.selectedItem);
   return selectedItem.name ? (
     <div>
       <h1>{selectedItem.name.english}</h1>
