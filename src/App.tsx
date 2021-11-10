@@ -1,91 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import pokemon from "./pokemon.json";
 import { Name, Base, IPokemon } from "./interfaces/pokemon";
+import styled from "@emotion/styled";
 
-function PokemonRow({
-  pokemon,
-  onSelect,
-}: {
-  pokemon: IPokemon;
-  onSelect: (pokemon: IPokemon) => void;
-}) {
-  return (
-    <tr>
-      <td>{pokemon.name.english}</td>
-      <td>{pokemon.type.join(", ")}</td>
-      <td>
-        <button onClick={() => onSelect(pokemon)}>Select!</button>
-      </td>
-    </tr>
-  );
-}
+import PokemonInfo from "./components/PokemonInfo";
+import PokemonFilter from "./components/PokemonFilter";
+import PokemonTable from "./components/PokemonTable";
+import PokemonContext from "./components/PokemonContext";
 
-function PokemonInfo({ name, base }: { name: Name; base: Base }) {
-  return (
-    <div>
-      <h1>{name.english}</h1>
-      <table>
-        {Object.keys(base).map((key) => (
-          <tr key={key}>
-            <td>{key}</td>
-            <td>{base[key as keyof Base]}</td>
-          </tr>
-        ))}
-      </table>
-    </div>
-  );
-}
+const Title = styled.h1`
+  text-align: center;
+`;
+
+const TwoColumnLayout = styled.div`
+  display: grid;
+  grid-template-columns: 70% 30%;
+  column-gap: 1rem;
+`;
+
+const Container = styled.div`
+  margin: auto;
+  width: 800px;
+  paddingtop: 1rem;
+`;
 
 function App() {
   const [filter, filterSet] = useState("");
+  const [pokemon, pokemonSet] = useState<IPokemon[]>([]);
   const [selectedItem, selectedItemSet] = useState<IPokemon | null>(null);
 
+  useEffect(() => {
+    fetch("http://localhost:3000/starting-react/pokemon.json")
+      .then((resp) => resp.json())
+      .then((data) => pokemonSet(data));
+  }, []);
+
   return (
-    <div
-      style={{
-        margin: "auto",
-        width: 800,
-        paddingTop: "1rem",
+    <PokemonContext.Provider
+      value={{
+        filter,
+        pokemon,
+        selectedItem,
+        filterSet,
+        pokemonSet,
+        selectedItemSet,
       }}
     >
-      <h1 className="title">Pokemon search</h1>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "70% 30%",
-          columnGap: "1rem",
-        }}
-      >
-        <div>
-          <input value={filter} onChange={(evt) => filterSet(evt.target.value)} />
-          <table width="100%">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* {pokemon.map((pokemon) => ( */}
-              {pokemon
-                .filter((pokemon) =>
-                  pokemon.name.english.toLowerCase().includes(filter.toLowerCase())
-                )
-                .slice(0, 20)
-                .map((pokemon) => (
-                  <PokemonRow
-                    pokemon={pokemon}
-                    key={pokemon.id}
-                    onSelect={(pokemon) => selectedItemSet(pokemon)}
-                  />
-                ))}
-            </tbody>
-          </table>
-        </div>
-        {selectedItem && <PokemonInfo {...selectedItem} />}
-      </div>
-    </div>
+      <Container>
+        <Title>Pokemon search</Title>
+        <TwoColumnLayout>
+          <div>
+            <PokemonFilter />
+            <PokemonTable filter={filter} pokemon={pokemon} selectedItemSet={selectedItemSet} />
+          </div>
+          {selectedItem && <PokemonInfo {...selectedItem} />}
+        </TwoColumnLayout>
+      </Container>
+    </PokemonContext.Provider>
   );
 }
 export default App;
