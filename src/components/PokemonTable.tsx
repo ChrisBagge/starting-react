@@ -1,5 +1,4 @@
 import React from "react";
-import { IPokemon } from "../interfaces/pokemon";
 import PokemonRow from "./PokemonRow";
 import store from "../store";
 import { observer } from "mobx-react";
@@ -15,18 +14,13 @@ const PokemonTable = () => {
       </thead>
       <tbody>
         {/* {pokemon.map((pokemon) => ( */}
-        {store.pokemon
-          .filter((pokemon) =>
-            pokemon.name.english.toLowerCase().includes(store.filter.toLowerCase())
-          )
-          .slice(0, 20)
-          .map((pokemon) => (
-            <PokemonRow
-              pokemon={pokemon}
-              key={pokemon.id}
-              onSelect={(pokemon) => store.setSelectedItem(pokemon)}
-            />
-          ))}
+        {store.filteredPokemon.slice(0, 20).map((pokemon) => (
+          <PokemonRow
+            pokemon={pokemon}
+            key={pokemon.id}
+            onSelect={(pokemon) => store.setSelectedItem(pokemon)}
+          />
+        ))}
       </tbody>
     </table>
   );

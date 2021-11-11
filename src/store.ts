@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { action, makeObservable, observable, computed } from "mobx";
 import { IPokemon } from "./interfaces/pokemon";
 
 // interface IStore {
@@ -13,7 +13,18 @@ class Store {
   selectedItem = {} as IPokemon;
 
   constructor() {
-    makeAutoObservable(this);
+    makeObservable(this, {
+      pokemon: observable,
+      filter: observable,
+      selectedItem: observable,
+      filteredPokemon: computed,
+    });
+  }
+
+  get filteredPokemon() {
+    return this.pokemon.filter((pokemon) =>
+      pokemon.name.english.toLowerCase().includes(this.filter.toLowerCase())
+    );
   }
 
   setPokemon(pokemon: IPokemon[]) {
@@ -32,6 +43,6 @@ const store = new Store();
 
 fetch("http://localhost:3000/starting-react/pokemon.json")
   .then((resp) => resp.json())
-  .then((pokemon) => store.setPokemon(pokemon));
+  .then(action((pokemon) => store.setPokemon(pokemon)));
 
 export default store;
