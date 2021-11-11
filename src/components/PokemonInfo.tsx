@@ -1,25 +1,18 @@
 import React from "react";
 import { Base } from "../interfaces/pokemon";
-import { useSelector } from "react-redux";
-import { IPokemon } from "../interfaces/pokemon";
+import store from "../store";
+import { observer } from "mobx-react";
 
-interface RootState {
-  filter: string;
-  pokemon: IPokemon[];
-  selectedItem: IPokemon;
-}
-//function PokemonInfo({ name, base }: { name: Name; base: Base }) {
 const PokemonInfo = () => {
-  const selectedItem = useSelector((state: RootState) => state.selectedItem);
-  return selectedItem.name ? (
+  return store.selectedItem.name ? (
     <div>
-      <h1>{selectedItem.name.english}</h1>
+      <h1>{store.selectedItem.name.english}</h1>
       <table>
         <tbody>
-          {Object.keys(selectedItem.base).map((key) => (
+          {Object.keys(store.selectedItem.base).map((key) => (
             <tr key={key}>
               <td>{key}</td>
-              <td>{selectedItem.base[key as keyof Base]}</td>
+              <td>{store.selectedItem.base[key as keyof Base]}</td>
             </tr>
           ))}
         </tbody>
@@ -28,4 +21,4 @@ const PokemonInfo = () => {
   ) : null;
 };
 
-export default PokemonInfo;
+export default observer(PokemonInfo);

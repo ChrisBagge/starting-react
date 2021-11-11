@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useSelector, useDispatch } from "react-redux";
+import store from "../store";
+import { observer } from "mobx-react";
 import { IPokemon } from "../interfaces/pokemon";
 
 const Input = styled.input`
@@ -14,15 +15,7 @@ interface RootState {
   selectedItem: IPokemon;
 }
 const PokemonFilter = () => {
-  const dispatch = useDispatch();
-  const filter = useSelector((state: RootState) => state.filter);
-
-  return (
-    <Input
-      value={filter}
-      onChange={(evt) => dispatch({ type: "SET_FILTER", payload: evt.target.value })}
-    />
-  );
+  return <Input value={store.filter} onChange={(evt) => store.setFilter(evt.target.value)} />;
 };
 
-export default PokemonFilter;
+export default observer(PokemonFilter);

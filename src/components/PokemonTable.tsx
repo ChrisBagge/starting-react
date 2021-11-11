@@ -1,18 +1,10 @@
 import React from "react";
 import { IPokemon } from "../interfaces/pokemon";
 import PokemonRow from "./PokemonRow";
-import { useSelector, useDispatch } from "react-redux";
+import store from "../store";
+import { observer } from "mobx-react";
 
-interface RootState {
-  filter: string;
-  pokemon: IPokemon[];
-  selectedItem: IPokemon;
-}
 const PokemonTable = () => {
-  const dispatch = useDispatch();
-  const pokemon = useSelector((state: RootState) => state.pokemon);
-  const filter = useSelector((state: RootState) => state.filter);
-
   return (
     <table width="100%">
       <thead>
@@ -23,19 +15,16 @@ const PokemonTable = () => {
       </thead>
       <tbody>
         {/* {pokemon.map((pokemon) => ( */}
-        {pokemon
-          .filter((pokemon) => pokemon.name.english.toLowerCase().includes(filter.toLowerCase()))
+        {store.pokemon
+          .filter((pokemon) =>
+            pokemon.name.english.toLowerCase().includes(store.filter.toLowerCase())
+          )
           .slice(0, 20)
           .map((pokemon) => (
             <PokemonRow
               pokemon={pokemon}
               key={pokemon.id}
-              onSelect={(pokemon) =>
-                dispatch({
-                  type: "SET_SELECTED_ITEM",
-                  payload: pokemon,
-                })
-              }
+              onSelect={(pokemon) => store.setSelectedItem(pokemon)}
             />
           ))}
       </tbody>
@@ -43,4 +32,4 @@ const PokemonTable = () => {
   );
 };
 
-export default PokemonTable;
+export default observer(PokemonTable);
