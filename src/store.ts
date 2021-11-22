@@ -1,12 +1,6 @@
 import { action, makeObservable, observable, computed } from "mobx";
 import { IPokemon } from "./interfaces/pokemon";
 
-// interface IStore {
-//   filter: string;
-//   pokemon: IPokemon[];
-//   selectedItem: IPokemon;
-// }
-
 class Store {
   pokemon = Array<IPokemon>();
   filter = "";
