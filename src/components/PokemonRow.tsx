@@ -1,15 +1,9 @@
 import React from "react";
 import { IPokemon } from "../interfaces/pokemon";
 import { Button } from "@mui/material";
-import { action } from "mobx";
+import { pokemonVar } from "../cache";
 
-function PokemonRow({
-  pokemon,
-  onSelect,
-}: {
-  pokemon: IPokemon;
-  onSelect: (pokemon: IPokemon) => void;
-}) {
+function PokemonRow({ pokemon }: { pokemon: IPokemon }) {
   return (
     <tr>
       <td>{pokemon.name.english}</td>
@@ -18,9 +12,9 @@ function PokemonRow({
         <Button
           variant="contained"
           color="primary"
-          onClick={action(() => {
-            onSelect(pokemon);
-          })}
+          onClick={() => {
+            pokemonVar(pokemon);
+          }}
         >
           More information
         </Button>

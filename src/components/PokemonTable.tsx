@@ -1,9 +1,8 @@
 import React from "react";
 import PokemonRow from "./PokemonRow";
-import store from "../store";
-import { observer } from "mobx-react";
+import { Pokemons } from "../interfaces/pokemon";
 
-const PokemonTable = () => {
+function PokemonTable({ filteredPokemons }: { filteredPokemons: Pokemons }) {
   return (
     <table width="100%">
       <thead>
@@ -13,17 +12,12 @@ const PokemonTable = () => {
         </tr>
       </thead>
       <tbody>
-        {/* {pokemon.map((pokemon) => ( */}
-        {store.filteredPokemon.slice(0, 20).map((pokemon) => (
-          <PokemonRow
-            pokemon={pokemon}
-            key={pokemon.id}
-            onSelect={(pokemon) => store.setSelectedItem(pokemon)}
-          />
+        {filteredPokemons.map((pokemon) => (
+          <PokemonRow pokemon={pokemon} key={pokemon.id} />
         ))}
       </tbody>
     </table>
   );
-};
+}
 
-export default observer(PokemonTable);
+export default PokemonTable;

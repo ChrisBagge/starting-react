@@ -9,8 +9,8 @@ export interface Base {
   HP: number;
   Attack: number;
   Defense: number;
-  "Sp. Attack": number;
-  "Sp. Defense": number;
+  SpAttack: number;
+  SpDefense: number;
   Speed: number;
 }
 
@@ -20,3 +20,5 @@ export interface IPokemon {
   type: string[];
   base: Base;
 }
+
+export type Pokemons = IPokemon[];

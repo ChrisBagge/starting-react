@@ -5,10 +5,20 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { CssBaseline } from "@mui/material";
 
+import { cache } from "./cache";
+import { ApolloClient, ApolloProvider } from "@apollo/client";
+
+export const client = new ApolloClient({
+  cache,
+  connectToDevTools: true,
+});
+
 ReactDOM.render(
   <React.StrictMode>
-    <CssBaseline />
-    <App />
+    <ApolloProvider client={client}>
+      <CssBaseline />
+      <App />
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
